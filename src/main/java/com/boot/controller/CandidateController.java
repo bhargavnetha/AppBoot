@@ -3,6 +3,7 @@ package com.boot.controller;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import com.boot.entity.Candidate;
 import com.boot.repository.CandidateRepository;
 import com.boot.service.CandidateService;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api")
 public class CandidateController {
