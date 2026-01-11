@@ -20,9 +20,13 @@ public class CandidateService {
 	    @Value("${aws.s3.bucket}")
 	    private String bucketName;
 	    
-	    public CandidateService() {
+	    @Value("${aws.region}")
+	    private String region;
+	    
+	    public CandidateService(
+	            @Value("${aws.region}") String region) {
 	        this.s3Client = S3Client.builder()
-	                .region(Region.AP_SOUTH_1)
+	                .region(Region.of(region))   // ✅ Ohio
 	                .build();
 	    }
 	    
@@ -40,7 +44,13 @@ public class CandidateService {
 	                RequestBody.fromBytes(file.getBytes())
 	        );
 
-	        return "https://" + bucketName + ".s3.amazonaws.com/" + key;
+	        //return "https://" + bucketName + ".s3.amazonaws.com/" + key;
+	        return String.format(
+	                "https://%s.s3.%s.amazonaws.com/%s",
+	                bucketName,
+	                region,
+	                key
+	        );
 	    }
 
 }

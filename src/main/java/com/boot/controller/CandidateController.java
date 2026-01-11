@@ -1,7 +1,9 @@
 package com.boot.controller;
 
 import java.io.IOException;
+import java.util.List;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,7 +17,7 @@ import com.boot.repository.CandidateRepository;
 import com.boot.service.CandidateService;
 
 @RestController
-@RequestMapping("/candidate")
+@RequestMapping("/api")
 public class CandidateController {
 
 	private final CandidateService service;
@@ -26,7 +28,10 @@ public class CandidateController {
         this.service = service;
     }
 	
-	 @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+		@PostMapping(
+	        value = "/candidate",
+	        consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+	    )
 	    public Candidate createCandidate(
 	            @RequestParam String name,
 	            @RequestParam Integer age,
@@ -38,4 +43,9 @@ public class CandidateController {
 	        candidate.setPhotoUrl(photoUrl);
 	        return repository.save(candidate);
 	    }
+	 
+	 @GetMapping("/candidates")
+	 public List<Candidate> getCandidates(){
+		 return repository.findAll();
+	 }
 }
